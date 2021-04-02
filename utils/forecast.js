@@ -7,15 +7,15 @@ const forecast = (latitude, longitude, callback) => {
     "," +
     longitude +
     "&unit=m";
-  request({ url: url, json: true }, (error, response) => {
+  request({ url, json: true }, (error, { body } = {}) => {
     if (error) {
       callback("Unable to connect to weather service!", undefined);
-    } else if (response.body.error) {
+    } else if (body.error) {
       callback("Please specify a valid location", undefined);
     } else {
       callback(
         undefined,
-        `${response.body.current.weather_descriptions[0]}. It is currently ${response.body.current.temperature} *C outside, also it feels like ${response.body.current.feelslike} *C`
+        `${body.current.weather_descriptions[0]}. It is currently ${body.current.temperature} *C outside, also it feels like ${body.current.feelslike} *C`
       );
     }
   });
